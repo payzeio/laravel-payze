@@ -1,0 +1,39 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreatePayzeCardTokensTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create(config('payze.card_tokens_table'), function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->bigInteger('transaction_id')->unsigned()->nullable();
+            $table->foreign('transaction_id')
+                ->references('id')
+                ->on(config('payze.transactions_table'))
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->boolean('active')->default(0);
+            $table->text('token');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists(config('payze.card_tokens_table'));
+    }
+}

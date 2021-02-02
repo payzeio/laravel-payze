@@ -1,0 +1,33 @@
+{
+    "name": "payze-io/laravel-payze",
+    "description": "Payze.io SDK for Laravel",
+    "type": "library",
+    "require": {
+        "php": ">=7.0",
+        "ext-json": "*",
+        "guzzlehttp/guzzle": "^7.2",
+        "illuminate/support": ">=5.3"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Levan Lotuashvili",
+            "email": "l.lotuashvili@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "PayzeIO\\LaravelPayze\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "PayzeIO\\LaravelPayze\\PayzeServiceProvider"
+            ],
+            "aliases": {
+                "Payze": "PayzeIO\\LaravelPayze\\Facades\\Payze"
+            }
+        }
+    }
+}
