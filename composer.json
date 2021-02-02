@@ -1,5 +1,5 @@
 {
-    "name": "payze-io/laravel-payze",
+    "name": "payzeio/laravel-payze",
     "description": "Payze.io SDK for Laravel",
     "type": "library",
     "require": {
