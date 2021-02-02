@@ -1,6 +1,6 @@
 {
     "name": "payzeio/laravel-payze",
-    "description": "Payze.io SDK for Laravel",
+    "description": "Payze.io Payment Integration for Laravel",
     "type": "library",
     "require": {
         "php": ">=7.0",
