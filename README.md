@@ -10,7 +10,7 @@ This package allows you to process payments with Payze.io from your Laravel appl
 
 - [Installation](#installation)
     - [API Keys](#api-keys)
-    - [Routes](#define-routes)
+    - [Define Routes](#define-routes)
 - [Config](#config)
     - [Log](#log)
     - [Routes](#routes)
