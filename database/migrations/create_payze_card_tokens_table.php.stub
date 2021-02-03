@@ -21,9 +21,13 @@ class CreatePayzeCardTokensTable extends Migration
                 ->on(config('payze.transactions_table'))
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
+            $table->integer('model_id')->unsigned()->nullable();
+            $table->string('model_type')->nullable();
             $table->boolean('active')->default(0);
             $table->text('token');
             $table->timestamps();
+
+            $table->index(['model_id', 'model_type']);
         });
     }
 

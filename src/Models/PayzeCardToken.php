@@ -5,6 +5,7 @@ namespace PayzeIO\LaravelPayze\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Facades\Crypt;
 
 class PayzeCardToken extends Model
@@ -16,6 +17,8 @@ class PayzeCardToken extends Model
      */
     protected $fillable = [
         'transaction_id',
+        'model_id',
+        'model_type',
         'active',
         'token',
     ];
@@ -47,6 +50,14 @@ class PayzeCardToken extends Model
     public function transaction(): BelongsTo
     {
         return $this->belongsTo(PayzeTransaction::class, 'transaction_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     */
+    public function model(): MorphTo
+    {
+        return $this->morphTo();
     }
 
     /**

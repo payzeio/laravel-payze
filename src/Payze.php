@@ -114,6 +114,8 @@ class Payze
         return PayzeCardToken::create([
             'token' => $token,
             'transaction_id' => $transaction->id,
+            'model_id' => $transaction->model_id,
+            'model_type' => $transaction->model_type,
         ]);
     }
 
