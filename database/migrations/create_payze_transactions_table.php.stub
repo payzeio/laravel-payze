@@ -15,7 +15,7 @@ class CreatePayzeTransactionsTable extends Migration
     {
         Schema::create(config('payze.transactions_table'), function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('model_id')->unsigned()->nullable();
+            $table->bigInteger('model_id')->unsigned()->nullable();
             $table->string('model_type')->nullable();
             $table->string('method')->nullable();
             $table->string('status');
