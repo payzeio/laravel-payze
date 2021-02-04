@@ -149,7 +149,7 @@ Detailed instructions about needed data and options are in the [next section](#p
 
 ### Just Pay
 
-If you need one-time payment, then you should use Just Pay function.
+If you need a one-time payment, then you should use the Just Pay function.
 
 **Parameters:**
 
@@ -168,13 +168,13 @@ return JustPay::request(1)
 
 ### Add (Save) Card
 
-Saving a card gives you a card token which you use for futher manual charges without customer's interaction. You can charge any amount and also save a card in one action, or you can set amount to 0 to just save a card (Some banks may charge 0.1GEL and refund for saving a card). 
+Saving a card gives you a card token which you use for further manual charges without customer interaction. You can charge any amount and also save a card in one action, or you can set the amount to 0 to just save a card (Some banks may charge 0.1GEL and refund for saving a card).
 
 Card tokens are saved in [database](#card-tokens-table) and can be accessed by [PayzeCardToken](src/Models/PayzeCardToken.php) model or [cards relationship](#cards-relationship).
 
-After requesting a payment, card token is created in a database with inactive status. After a successful charge, card token becomes active automatically.
+After requesting a payment, a card token is created in a database with an inactive status. After a successful charge, the card token becomes active automatically.
 
-**IMPORTANT!** If you want to associate a card token with the user and a transaction with order, then you should use two requests: Save card with 0 amount to user and then charge for order with saved card. This way, you will have a card token associated with the user and a transaction associated with an order.
+**IMPORTANT!** If you want to associate a card token with the user and a transaction with an order, then you should use two requests: Save card with 0 amount for a user and then charge for an order with the saved card. This way, you will have a card token associated with the user and a transaction associated with an order.
 
 **Parameters:**
 
@@ -192,7 +192,7 @@ return AddCard::request(1)
 
 ### Pay with a Saved Card
 
-You can pay with saved card token anytime without customer's interaction.
+You can pay with a saved card token anytime without customer interaction.
 
 Card tokens can be accessed by [PayzeCardToken](src/Models/PayzeCardToken.php) model or [cards relationship](#cards-relationship). Filter tokens by active status (with [`active()` scope](#active-scope))
 
@@ -253,7 +253,7 @@ return Refund::request($transaction)->process();
 
 ### Transaction Info
 
-Get transaction info and update in database.
+Get transaction info and update in the database.
 
 **Parameters:**
 
@@ -272,7 +272,7 @@ return GetTransactionInfo::request($transaction)->process();
 
 ### Merchant's balance
 
-Get balance info from merchant's account.
+Get balance info from the merchant's account.
 
 **Return:** `array`
 
@@ -288,7 +288,7 @@ You can pass these parameters to all of the payment requests in Payze package.
 
 ### Amount
 
-All requests have amount in constructor, but there is a separate method for changing the amount.
+All payment requests have an amount in the constructor, but also there is a separate method for changing the amount.
 
 ```php
 use PayzeIO\LaravelPayze\Requests\JustPay;
@@ -306,7 +306,7 @@ You can change your payment's currency by calling `currency()` function on the r
 
 See supported currencies in [currencies enum file](src/Enums/Currency.php).
 
-**Recommended:** Pass currency by using enum instead of directly passing a string.
+**Recommended:** Pass currency by using an enum instead of directly passing a string.
 
 ```php
 use PayzeIO\LaravelPayze\Enums\Currency;
@@ -321,7 +321,7 @@ You can change your payment page's language by calling `language()` function on 
 
 See supported languages in [languages enum file](src/Enums/Language.php).
 
-**Recommended:** Pass language by using enum instead of directly passing a string.
+**Recommended:** Pass language by using an enum instead of directly passing a string.
 
 ```php
 use PayzeIO\LaravelPayze\Enums\Language;
@@ -332,11 +332,11 @@ return JustPay::request(1)->language(Language::ENG)->process();
 
 ### Preauthorize
 
-Preauthorize method is used to block amount for some time and then manually charge ([commit](#commit)) the transaction. For example, if you are selling production which has to be produced after the order, block (preauthorize) transaction on order and manually charge ([commit](#commit)) after your product is ready.
+Preauthorize method is used to block the amount for some time and then manually charge ([commit](#commit)) the transaction. For example, if you are selling products which have to be produced after the order, block (preauthorize) transaction on order and manually charge ([commit](#commit)) after your product are ready.
 
 ### Associated Model
 
-You can associate any Eloquent model to a transaction by calling `for()` function on the request. For example, pass an order instance to a payment request for checking order's payment status after payment. 
+You can associate any Eloquent model to a transaction by calling `for()` function on the request. For example, pass an order instance to a payment request for checking the order's payment status after payment.
 
 ```php
 use App\Models\Order;
@@ -349,11 +349,11 @@ return JustPay::request(1)->for($order)->process();
 
 ### Split Money
 
-You can split money to a different bank accounts. For example, you have a marketplace where users sell their products and you get a commission for that. You can simply split transferred money easily instead of manually transferring from a bank account to a seller on every order.
+You can split the money into different bank accounts. For example, you have a marketplace where users sell their products and you get a commission for that. You can simply split transferred money easily instead of manually transferring from a bank account to a seller on every order.
 
 You have to call `split()` function on the request, which accepts list/array of `PayzeIO\LaravelPayze\Objects\Split` object(s).
 
-Split object has three parameters: `Amount`, `Receiver's IBAN` and `Pay In (optional)` (delay in days before transferring the money).
+Split object has three parameters: `Amount`, `Receiver's IBAN`, and `Pay In (optional)` (delay in days before transferring the money).
 
 For example, the cost of a product is 20GEL. You have to get your commission (10%) and transfer the rest to a seller.
 
@@ -370,7 +370,7 @@ return JustPay::request(20)
 
 ## Relationships
 
-You can add transactions and cards relationships to your models with traits to easily access associated entries.
+You can add `transactions` and `cards` relationships to your models with traits to easily access associated entries.
 
 ### Transactions Relationship
 
@@ -406,7 +406,7 @@ Now you can access saved cards by calling `$user->cards`.
 
 ### Transaction Model
 
-You can access all transaction logged in database by `PayzeIO\LaravelPayze\Models\PayzeTransaction` model.
+You can access all transactions logged in the database by `PayzeIO\LaravelPayze\Models\PayzeTransaction` model.
 
 Get all transactions:
 
@@ -478,7 +478,7 @@ PayzeTransaction::nonrefundable()->get();
 
 ### Card Token Model
 
-You can access all saved card tokens logged in database by `PayzeIO\LaravelPayze\Models\PayzeCardToken` model.
+You can access all saved card tokens logged in the database by `PayzeIO\LaravelPayze\Models\PayzeCardToken` model.
 
 Get all tokens:
 
@@ -510,7 +510,7 @@ PayzeCardToken::inactive()->get();
 
 ### Log Model
 
-You can access all logs from database by `PayzeIO\LaravelPayze\Models\PayzeLog` model.
+You can access all logs from the database by `PayzeIO\LaravelPayze\Models\PayzeLog` model.
 
 Get all logs:
 
