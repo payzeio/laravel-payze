@@ -6,6 +6,8 @@
 
 This package allows you to process payments with Payze.io from your Laravel application.
 
+![Laravel Payze.io Integration](cover.png)
+
 ## Table of Contents
 
 - [Installation](#installation)
