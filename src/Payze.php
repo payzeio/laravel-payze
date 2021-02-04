@@ -208,6 +208,7 @@ class Payze
             $response = json_decode((new Client)->post('https://payze.io/api/v1', [
                 'headers' => [
                     'Content-Type' => 'application/json',
+                    'user-agent' => 'laravel-payze',
                 ],
                 'json' => [
                     'method' => $method,
