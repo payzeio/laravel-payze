@@ -368,6 +368,16 @@ return JustPay::request(20)
     )->process();
 ```
 
+## Events
+
+Events are fired after successful or failed transactions. You can [define listeners](https://laravel.com/docs/8.x/events#defining-listeners) in your application in order to mark an order as paid, notify a customer or whatever you need.
+
+Both events have `$transaction` property.
+
+Paid Event: `PayzeIO\LaravelPayze\Events\PayzeTransactionPaid`
+
+Failed Event: `PayzeIO\LaravelPayze\Events\PayzeTransactionFailed`
+
 ## Relationships
 
 You can add `transactions` and `cards` relationships to your models with traits to easily access associated entries.
