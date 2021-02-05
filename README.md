@@ -37,6 +37,7 @@ This package allows you to process payments with Payze.io from your Laravel appl
     - [Preauthorize](#preauthorize)
     - [Associated Model](#associated-model)
     - [Split Money](#split-money)
+- [Events](#events)
 - [Relationships](#relationships)
     - [Transactions Relationship](#transactions-relationship)
     - [Cards Relationship](#cards-relationship)
