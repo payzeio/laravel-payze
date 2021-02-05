@@ -3,6 +3,8 @@
 namespace PayzeIO\LaravelPayze;
 
 use Illuminate\Support\ServiceProvider;
+use PayzeIO\LaravelPayze\Models\PayzeTransaction;
+use PayzeIO\LaravelPayze\Observers\PayzeTransactionObserver;
 
 class PayzeServiceProvider extends ServiceProvider
 {
@@ -21,6 +23,8 @@ class PayzeServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__ . '/../config/payze.php', 'payze');
 
         $this->loadViewsFrom(__DIR__ . '/../views', 'payze');
+
+        PayzeTransaction::observe(PayzeTransactionObserver::class);
     }
 
     public function register()

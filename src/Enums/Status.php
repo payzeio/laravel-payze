@@ -15,9 +15,6 @@ class Status
     const INCOMPLETE = [
         self::CREATED,
         self::NOTHING,
-        self::ERROR,
-        self::REJECTED,
-        self::TIMEOUT,
     ];
 
     const BLOCKED = 'Blocked';
