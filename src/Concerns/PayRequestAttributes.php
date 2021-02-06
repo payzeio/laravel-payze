@@ -40,6 +40,11 @@ abstract class PayRequestAttributes extends ApiRequest
     protected $preauthorize = false;
 
     /**
+     * @var bool
+     */
+    protected $raw = false;
+
+    /**
      * @var \Illuminate\Database\Eloquent\Model
      */
     protected $model;
@@ -143,6 +148,20 @@ abstract class PayRequestAttributes extends ApiRequest
     }
 
     /**
+     * Set raw option for transaction
+     *
+     * @param bool $raw
+     *
+     * @return $this
+     */
+    public function raw(bool $raw = true): self
+    {
+        $this->raw = $raw;
+
+        return $this;
+    }
+
+    /**
      * @return float
      */
     public function getAmount(): float
@@ -172,6 +191,14 @@ abstract class PayRequestAttributes extends ApiRequest
     public function getPreauthorize(): bool
     {
         return $this->preauthorize;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getRaw(): bool
+    {
+        return $this->raw;
     }
 
     /**

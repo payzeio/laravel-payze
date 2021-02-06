@@ -37,6 +37,7 @@ This package allows you to process payments with Payze.io from your Laravel appl
     - [Preauthorize](#preauthorize)
     - [Associated Model](#associated-model)
     - [Split Money](#split-money)
+    - [Raw Data](#raw-data)
 - [Events](#events)
 - [Relationships](#relationships)
     - [Transactions Relationship](#transactions-relationship)
@@ -368,6 +369,21 @@ return JustPay::request(20)
         new Split(18, "Seller's IBAN", 3) // Transfer 18GEL after 3 days (for example, as an insurance before processing the order)
     )->process();
 ```
+
+### Raw Data
+
+By default, when you request a payment, it will return RedirectResponse. You can call `raw()` function and payment request with return the original data instead of a RedirectResponse.
+
+```php
+use PayzeIO\LaravelPayze\Requests\JustPay;
+
+$request = JustPay::request(20)->raw()->process();
+
+log($request['transactionId']);
+
+return $request['transactionUrl'];
+```
+
 
 ## Events
 

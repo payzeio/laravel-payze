@@ -27,12 +27,12 @@ class Payze
      *
      * @param \PayzeIO\LaravelPayze\Concerns\PayRequest $request
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse|array
      * @throws \PayzeIO\LaravelPayze\Exceptions\PaymentRequestException
      * @throws \PayzeIO\LaravelPayze\Exceptions\ApiCredentialsException
      * @throws \Throwable
      */
-    public function processPayment(PayRequest $request): RedirectResponse
+    public function processPayment(PayRequest $request)
     {
         $method = $request->getMethod();
         $data = $request->toRequest();
@@ -55,7 +55,7 @@ class Payze
             $this->saveCard($response['cardId'], $transaction);
         }
 
-        return redirect($url);
+        return $request->getRaw() ? $response : redirect($url);
     }
 
     /**
