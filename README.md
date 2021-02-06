@@ -91,6 +91,14 @@ PAYZE_API_SECRET=PayzeApiSecret
 
 You have to define success and fail routes in your application in order to finalize transactions. Go to your `web.php` (or wherever you store routes) and add the following:
 
+`routes()` function takes 3 **optional** parameters:
+
+**Controller:** Controller name, default: `App\Http\Controller\PayzeController`
+
+**Success Method:** Success method name, default: `success`
+
+**Fail Method:** Fail method name, default: `fail`
+
 ```php
 use PayzeIO\LaravelPayze\Facades\Payze;
 

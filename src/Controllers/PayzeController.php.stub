@@ -1,0 +1,9 @@
+<?php
+
+namespace App\Http\Controllers;
+
+class PayzeController extends \PayzeIO\LaravelPayze\Controllers\PayzeController
+{
+    // Override or extend any method you need
+    // Please use parent controller's helper classes for better experience
+}

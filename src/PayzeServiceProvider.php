@@ -20,6 +20,10 @@ class PayzeServiceProvider extends ServiceProvider
             __DIR__ . '/../config/payze.php' => config_path('payze.php'),
         ], 'config');
 
+        $this->publishes([
+            __DIR__ . '/controllers/PayzeController.php.stub' => app_path('Http/Controllers/PayzeController.php'),
+        ], 'controllers');
+
         $this->mergeConfigFrom(__DIR__ . '/../config/payze.php', 'payze');
 
         $this->loadViewsFrom(__DIR__ . '/../views', 'payze');

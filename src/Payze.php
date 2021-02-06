@@ -250,13 +250,17 @@ class Payze
     /**
      * Define success and fail routes
      *
+     * @param string $controller
+     * @param string $successMethod
+     * @param string $failMethod
+     *
      * @return void
      */
-    public static function routes(): void
+    public static function routes(string $controller = \App\Http\Controllers\PayzeController::class, string $successMethod = 'success', string $failMethod = 'fail'): void
     {
-        Route::prefix('payze')->name('payze.')->group(function () {
-            Route::get('success', [PayzeController::class, 'success'])->name('success');
-            Route::get('fail', [PayzeController::class, 'fail'])->name('fail');
+        Route::prefix('payze')->name('payze.')->group(function () use ($controller, $successMethod, $failMethod) {
+            Route::get('success', [$controller, $successMethod])->name('success');
+            Route::get('fail', [$controller, $failMethod])->name('fail');
         });
     }
 }
