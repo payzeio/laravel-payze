@@ -5,7 +5,7 @@
     "require": {
         "php": ">=7.0",
         "ext-json": "*",
-        "guzzlehttp/guzzle": "^7.2",
+        "guzzlehttp/guzzle": "^6|^7",
         "illuminate/support": ">=5.3"
     },
     "license": "MIT",
