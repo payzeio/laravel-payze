@@ -31,7 +31,9 @@ class PayzeController extends Controller
             return redirect()->route(config('payze.routes.fail'), $request->query());
         }
 
-        return $this->response('success');
+        $response = $this->successResponse($transaction, $request);
+
+        return isset($response) ? $response : $this->response('success');
     }
 
     /**
@@ -49,7 +51,9 @@ class PayzeController extends Controller
             return redirect()->route(config('payze.routes.success'), $request->query());
         }
 
-        return $this->response('fail');
+        $response = $this->failResponse($transaction, $request);
+
+        return isset($response) ? $response : $this->response('fail');
     }
 
     /**
@@ -63,7 +67,15 @@ class PayzeController extends Controller
     {
         abort_unless($request->has($this->key), 404);
 
-        return GetTransactionInfo::request($request->input($this->key))->process();
+        $id = $request->input($this->key);
+
+        /*
+         * Check if transaction is incomplete
+         * Fixes security issue. Avoids triggering success callbacks on completed transactions more than once
+         */
+        PayzeTransaction::where('transaction_id', $id)->incomplete()->firstOrFail();
+
+        return GetTransactionInfo::request($id)->process();
     }
 
     /**
@@ -78,5 +90,33 @@ class PayzeController extends Controller
         $view = config('payze.views.' . $status);
 
         return $view ? view($view) : redirect('/');
+    }
+
+    /**
+     * Success Response
+     * Should be overridden in custom controller, or will be used a default one
+     *
+     * @param \PayzeIO\LaravelPayze\Models\PayzeTransaction $transaction
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return mixed
+     */
+    protected function successResponse(PayzeTransaction $transaction, Request $request)
+    {
+        // Override in controller
+    }
+
+    /**
+     * Fail Response
+     * Should be overridden in custom controller, or will be used a default one
+     *
+     * @param \PayzeIO\LaravelPayze\Models\PayzeTransaction $transaction
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return mixed
+     */
+    protected function failResponse(PayzeTransaction $transaction, Request $request)
+    {
+        // Override in controller
     }
 }
