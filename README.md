@@ -38,6 +38,7 @@ This package allows you to process payments with Payze.io from your Laravel appl
     - [Associated Model](#associated-model)
     - [Split Money](#split-money)
     - [Raw Data](#raw-data)
+- [Controller](#controller)
 - [Events](#events)
 - [Relationships](#relationships)
     - [Transactions Relationship](#transactions-relationship)
@@ -392,6 +393,11 @@ log($request['transactionId']);
 return $request['transactionUrl'];
 ```
 
+## Controller
+
+Default controller should be published after running publish command from [Installation section](#installation). You can add your custom logic to your controller in `successResponse` and `failResponse` methods. For example, you can set flash message, send notifications, mark order as complete or anything you want from that methods.
+
+**IMPORTANT!** If you return any non-NULL value from `successResponse` and `failResponse` methods, then that response will be used on success/fail routes. Otherwise [default logic](#views) will be used.
 
 ## Events
 
