@@ -372,7 +372,7 @@ return JustPay::request(20)
 
 ### Raw Data
 
-By default, when you request a payment, it will return RedirectResponse. You can call `raw()` function and payment request with return the original data instead of a RedirectResponse.
+By default, when you request a payment, it will return a RedirectResponse. You can call `raw()` function and payment request will return the original data instead of a RedirectResponse.
 
 ```php
 use PayzeIO\LaravelPayze\Requests\JustPay;
