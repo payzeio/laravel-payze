@@ -20,6 +20,7 @@ class PayzeCardToken extends Model
         'model_id',
         'model_type',
         'active',
+        'card_mask',
         'token',
     ];
 

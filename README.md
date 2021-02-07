@@ -529,6 +529,8 @@ use PayzeIO\LaravelPayze\Models\PayzeCardToken;
 PayzeCardToken::all();
 ```
 
+Active card tokens have `card_mask` attribute, which can be helpful for a user to choose correct card.
+
 #### Active Scope
 
 Filter active card tokens with `active()` scope.

@@ -24,6 +24,7 @@ class CreatePayzeCardTokensTable extends Migration
             $table->bigInteger('model_id')->unsigned()->nullable();
             $table->string('model_type')->nullable();
             $table->boolean('active')->default(0);
+            $table->string('card_mask')->nullable();
             $table->text('token');
             $table->timestamps();
 

@@ -4,12 +4,10 @@ namespace PayzeIO\LaravelPayze;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Route;
 use PayzeIO\LaravelPayze\Concerns\ApiRequest;
 use PayzeIO\LaravelPayze\Concerns\PayRequest;
 use PayzeIO\LaravelPayze\Concerns\PayRequestAttributes;
-use PayzeIO\LaravelPayze\Controllers\PayzeController;
 use PayzeIO\LaravelPayze\Enums\Language;
 use PayzeIO\LaravelPayze\Enums\Method;
 use PayzeIO\LaravelPayze\Enums\Status;
@@ -160,7 +158,10 @@ class Payze
             $transaction->save();
 
             if ($transaction->is_paid) {
-                $transaction->cards()->where('active', false)->update(['active' => true]);
+                $transaction->cards()->where('active', false)->update([
+                    'active' => true,
+                    'card_mask' => $transaction->card_mask,
+                ]);
             }
         });
     }
