@@ -47,6 +47,7 @@ This package allows you to process payments with Payze.io from your Laravel appl
     - [Transaction Model](#transaction-model)
     - [Card Token Model](#card-token-model)
     - [Log Model](#log-model)
+- [Abandoned Transactions](#abandoned-transactions)
 - [Authors](#authors)
 
 ## Installation
@@ -561,6 +562,35 @@ Get all logs:
 use PayzeIO\LaravelPayze\Models\PayzeLog;
 
 PayzeLog::all();
+```
+
+## Abandoned Transactions
+
+Abandoned transactions with status `Created` are automatically reject after about 10 minutes, so you have to run a scheduler to update those transactions' statuses.
+
+If you don't already have a scheduler configured, read [how to configure](https://laravel.com/docs/scheduling#running-the-scheduler) here.
+
+Register our console command in `app/Console/Kernel.php`'s `$commands` variable:
+
+```php
+use PayzeIO\LaravelPayze\Console\Commands\UpdateIncompleteTransactions;
+
+protected $commands = [
+    // Other commands
+    UpdateIncompleteTransactions::class,
+];
+```
+
+Then add a command in a schedule in `app/Console/Kernel.php`'s `schedule` function. We recommend to run a job every 30 minutes, but it's totally up to you and your application needs.
+
+```php
+use PayzeIO\LaravelPayze\Console\Commands\UpdateIncompleteTransactions;
+
+protected function schedule(Schedule $schedule)
+{
+    // Other commands
+    $schedule->command(UpdateIncompleteTransactions::class)->everyThirtyMinutes();
+}
 ```
 
 ## Authors
