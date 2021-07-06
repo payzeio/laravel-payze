@@ -4,6 +4,7 @@ namespace PayzeIO\LaravelPayze;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Route;
 use PayzeIO\LaravelPayze\Concerns\ApiRequest;
 use PayzeIO\LaravelPayze\Concerns\PayRequest;
@@ -16,6 +17,7 @@ use PayzeIO\LaravelPayze\Exceptions\PaymentRequestException;
 use PayzeIO\LaravelPayze\Models\PayzeCardToken;
 use PayzeIO\LaravelPayze\Models\PayzeLog;
 use PayzeIO\LaravelPayze\Models\PayzeTransaction;
+use PayzeIO\LaravelPayze\Requests\AddCard;
 use stdClass;
 
 class Payze
@@ -49,8 +51,8 @@ class Payze
             $transaction = $this->logTransaction($response ?? [], $request)
         );
 
-        if ($method === Method::ADD_CARD && filled($response['cardId'] ?? false)) {
-            $this->saveCard($response['cardId'], $transaction);
+        if ($method === Method::ADD_CARD && $request instanceof AddCard && filled($response['cardId'] ?? false)) {
+            $this->saveCard($response['cardId'], $transaction, $request->getAssignedModel());
         }
 
         return $request->getRaw() ? $response : redirect($url);
@@ -104,16 +106,17 @@ class Payze
     /**
      * @param string $token
      * @param \PayzeIO\LaravelPayze\Models\PayzeTransaction $transaction
+     * @param \Illuminate\Database\Eloquent\Model|null $model
      *
      * @return \PayzeIO\LaravelPayze\Models\PayzeCardToken
      */
-    protected function saveCard(string $token, PayzeTransaction $transaction): PayzeCardToken
+    protected function saveCard(string $token, PayzeTransaction $transaction, ?Model $model = null): PayzeCardToken
     {
         return PayzeCardToken::create([
             'token' => $token,
             'transaction_id' => $transaction->id,
-            'model_id' => $transaction->model_id,
-            'model_type' => $transaction->model_type,
+            'model_id' => optional($model)->id ?? $transaction->model_id,
+            'model_type' => filled($model) ? get_class($model) : $transaction->model_type,
         ]);
     }
 

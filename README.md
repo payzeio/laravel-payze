@@ -186,11 +186,15 @@ Card tokens are saved in [database](#card-tokens-table) and can be accessed by [
 
 After requesting a payment, a card token is created in a database with an inactive status. After a successful charge, the card token becomes active automatically.
 
-**IMPORTANT!** If you want to associate a card token with the user and a transaction with an order, then you should use two requests: Save card with 0 amount for a user and then charge for an order with the saved card. This way, you will have a card token associated with the user and a transaction associated with an order.
+**IMPORTANT!** If you want to associate a card token with the user and a transaction with an order, then you should use `assignTo` method, which receives a model instance of the owner of a card token.
 
 **Parameters:**
 
 - `Amount` - `float`, optional, default: `0`
+
+**Methods:**
+
+- `assignTo` - `Illuminate\Database\Eloquent\Model`, optional, default: `null`
 
 **Return:** `Illuminate\Http\RedirectResponse`
 
@@ -198,7 +202,8 @@ After requesting a payment, a card token is created in a database with an inacti
 use PayzeIO\LaravelPayze\Requests\AddCard;
 
 return AddCard::request(1)
-    ->for($user) // optional
+    ->for($order) // transaction will be assigned to order
+    ->assignTo($user) // optional: card token will be assigned to user. if not present, then will be assigned to order
     ->process();
 ```
 
