@@ -8,6 +8,35 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Facades\Crypt;
 
+/**
+ * PayzeIO\LaravelPayze\Models\PayzeCardToken
+ *
+ * @property int $id
+ * @property int|null $transaction_id
+ * @property int|null $model_id
+ * @property string|null $model_type
+ * @property bool $active
+ * @property string|null $card_mask
+ * @property string $token
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read Model|\Eloquent $model
+ * @property-read \PayzeIO\LaravelPayze\Models\PayzeTransaction|null $transaction
+ * @method static Builder|PayzeCardToken active()
+ * @method static Builder|PayzeCardToken newModelQuery()
+ * @method static Builder|PayzeCardToken newQuery()
+ * @method static Builder|PayzeCardToken query()
+ * @method static Builder|PayzeCardToken whereActive($value)
+ * @method static Builder|PayzeCardToken whereCardMask($value)
+ * @method static Builder|PayzeCardToken whereCreatedAt($value)
+ * @method static Builder|PayzeCardToken whereId($value)
+ * @method static Builder|PayzeCardToken whereModelId($value)
+ * @method static Builder|PayzeCardToken whereModelType($value)
+ * @method static Builder|PayzeCardToken whereToken($value)
+ * @method static Builder|PayzeCardToken whereTransactionId($value)
+ * @method static Builder|PayzeCardToken whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class PayzeCardToken extends Model
 {
     /**

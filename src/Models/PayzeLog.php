@@ -4,6 +4,24 @@ namespace PayzeIO\LaravelPayze\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * PayzeIO\LaravelPayze\Models\PayzeLog
+ *
+ * @property int $id
+ * @property string|null $message
+ * @property array|null $payload
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|PayzeLog newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|PayzeLog newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|PayzeLog query()
+ * @method static \Illuminate\Database\Eloquent\Builder|PayzeLog whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PayzeLog whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PayzeLog whereMessage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PayzeLog wherePayload($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PayzeLog whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class PayzeLog extends Model
 {
     /**
