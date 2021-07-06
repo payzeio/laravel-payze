@@ -15,7 +15,7 @@ This package allows you to process payments with Payze.io from your Laravel appl
     - [Define Routes](#define-routes)
 - [Config](#config)
     - [Log](#log)
-    - [Verify SSL](#ssl-verification)
+    - [SSL Verification](#ssl-verification)
     - [Routes](#routes)
     - [Views](#views)
     - [Transactions Table](#transactions-table)
