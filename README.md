@@ -15,6 +15,7 @@ This package allows you to process payments with Payze.io from your Laravel appl
     - [Define Routes](#define-routes)
 - [Config](#config)
     - [Log](#log)
+    - [Verify SSL](#ssl-verification)
     - [Routes](#routes)
     - [Views](#views)
     - [Transactions Table](#transactions-table)
@@ -118,6 +119,10 @@ The general variables are stored in `config/payze.php` file. More details:
 ### Log
 
 Enable/disable database detailed logging on every request/transaction. By default, the log is enabled on the local environment only. You can override the value from `.env` or directly from the config file.
+
+### SSL Verification
+
+Enable/Disable SSL verification in Guzzle client to avoid SSL problems on some servers. Enabled by default.
 
 ### Routes
 

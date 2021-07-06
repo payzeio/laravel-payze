@@ -8,6 +8,11 @@ return [
     'log' => (bool) env('PAYZE_LOG', env('APP_ENV') === 'local'),
 
     /*
+     * Enable/Disable SSL verification in Guzzle
+     */
+    'verify_ssl' => (bool) env('PAYZE_VERIFY_SSL', true),
+
+    /*
      * Success & Fail route names.
      * Update these if you have defined routes under name/namespace, for example "api.payze.succes"
      */

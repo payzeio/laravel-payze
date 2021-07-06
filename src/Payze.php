@@ -220,6 +220,7 @@ class Payze
                     'apiSecret' => $secret,
                     'data' => $data ?: new stdClass,
                 ],
+                'verify' => config('payze.verify_ssl', true),
             ])->getBody()->getContents(), true);
         } catch (RequestException $exception) {
             throw new PaymentRequestException($exception->getMessage());
