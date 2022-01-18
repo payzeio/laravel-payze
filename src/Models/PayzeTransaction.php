@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * @property string $transaction_id
  * @property float $amount
  * @property float|null $final_amount
- * @property bool|null $refunded
+ * @property float|null $refunded
  * @property float|null $commission
  * @property bool $refundable
  * @property string $currency
@@ -108,7 +108,7 @@ class PayzeTransaction extends Model
         'commission' => 'float',
         'split' => 'array',
         'can_be_committed' => 'boolean',
-        'refunded' => 'boolean',
+        'refunded' => 'float',
         'refundable' => 'boolean',
         'log' => 'array',
     ];

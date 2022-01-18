@@ -60,9 +60,9 @@ class Commit extends ApiRequest
 
     public function toRequest(): array
     {
-        return [
+        return array_filter([
             'transactionId' => $this->transactionId,
-            'amount' => $this->amount ?: 0,
-        ];
+            'amount' => $this->amount ?: null,
+        ]);
     }
 }
