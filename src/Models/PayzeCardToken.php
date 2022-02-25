@@ -40,11 +40,11 @@ use Illuminate\Support\Facades\Crypt;
 class PayzeCardToken extends Model
 {
     /**
+     * Guarded attributes.
      *
      * @var array
      */
      protected $guarded = [];
-
 
     /**
      * The attributes that should be cast.
