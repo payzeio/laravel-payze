@@ -40,18 +40,11 @@ use Illuminate\Support\Facades\Crypt;
 class PayzeCardToken extends Model
 {
     /**
-     * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = [
-        'transaction_id',
-        'model_id',
-        'model_type',
-        'active',
-        'card_mask',
-        'token',
-    ];
+     protected $guarded = [];
+
 
     /**
      * The attributes that should be cast.
