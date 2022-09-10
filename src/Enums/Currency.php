@@ -11,9 +11,12 @@ class Currency extends SwitchableEnum
     const SUPPORTED = [
         self::GEL,
         self::USD,
+        self::UZS,
     ];
 
     const GEL = 'GEL';
 
     const USD = 'USD';
+    
+    const UZS = 'UZS';
 }
