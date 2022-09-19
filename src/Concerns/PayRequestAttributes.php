@@ -50,6 +50,16 @@ abstract class PayRequestAttributes extends ApiRequest
     protected $model;
 
     /**
+     * @var string
+     */
+    protected $callback = '';
+
+    /**
+     * @var string
+     */
+    protected $callbackError = '';
+
+    /**
      * @param float $amount
      *
      * @return $this
@@ -162,6 +172,34 @@ abstract class PayRequestAttributes extends ApiRequest
     }
 
     /**
+     * The user will be redirected to this URL, If the transaction is successful
+     *
+     * @param string $url
+     *
+     * @return $this
+     */
+    public function callback(string $url): self
+    {
+        $this->callback = $url;
+
+        return $this;
+    }
+
+    /**
+     * The user will be redirected to this URL, if the transaction fails
+     *
+     * @param string $url
+     *
+     * @return $this
+     */
+    public function callbackError(string $url): self
+    {
+        $this->callbackError = $url;
+
+        return $this;
+    }
+
+    /**
      * @return float
      */
     public function getAmount(): float
@@ -234,9 +272,6 @@ abstract class PayRequestAttributes extends ApiRequest
             'currency' => $this->currency,
             'lang' => $this->lang,
             'preauthorize' => $this->preauthorize,
-            'split' => array_map(function (Split $split) {
-                return $split->toRequest();
-            }, $this->split),
             'callback' => route($successName),
             'callbackError' => route($failName),
         ];
@@ -247,13 +282,19 @@ abstract class PayRequestAttributes extends ApiRequest
      */
     public function toModel(): array
     {
-        return [
+        $data = [
             'model_id' => optional($this->model)->id,
             'model_type' => $this->model ? get_class($this->model) : null,
             'method' => $this->method,
             'amount' => $this->amount,
             'currency' => $this->currency,
             'lang' => $this->lang,
+            'callback' => $this->callback,
+            'callbackError' => $this->callbackError,
         ];
+        if (!empty($this->split)) {
+            $data['split'] = $this->split;
+        }
+        return $data;
     }
 }
