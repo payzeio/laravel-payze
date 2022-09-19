@@ -262,8 +262,17 @@ abstract class PayRequestAttributes extends ApiRequest
      */
     public function toRequest(): array
     {
-        $successName = config('payze.routes.success');
-        $failName = config('payze.routes.fail');
+        if ($this->callback){
+            $successName = $this->callback;
+        } else {
+            $successName = route(config('payze.routes.success'));
+        }
+
+        if ($this->callbackError){
+            $failName = $this->callbackError;
+        } else {
+            $failName = route(config('payze.routes.fail'));
+        }
 
         throw_unless(Route::has($successName) && Route::has($failName), new RoutesNotDefinedException);
 
@@ -272,8 +281,8 @@ abstract class PayRequestAttributes extends ApiRequest
             'currency' => $this->currency,
             'lang' => $this->lang,
             'preauthorize' => $this->preauthorize,
-            'callback' => route($successName),
-            'callbackError' => route($failName),
+            'callback' => $successName,
+            'callbackError' => $failName,
         ];
     }
 
@@ -289,8 +298,6 @@ abstract class PayRequestAttributes extends ApiRequest
             'amount' => $this->amount,
             'currency' => $this->currency,
             'lang' => $this->lang,
-            'callback' => $this->callback,
-            'callbackError' => $this->callbackError,
         ];
         if (!empty($this->split)) {
             $data['split'] = $this->split;
