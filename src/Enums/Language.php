@@ -9,9 +9,12 @@ class Language extends SwitchableEnum
     const SUPPORTED = [
         self::GEO,
         self::ENG,
+        self::UZB,
     ];
 
     const ENG = 'en';
 
     const GEO = 'ge';
+    
+    const UZB = 'uz';
 }
