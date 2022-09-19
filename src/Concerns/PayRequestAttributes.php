@@ -265,16 +265,18 @@ abstract class PayRequestAttributes extends ApiRequest
         if ($this->callback){
             $successName = $this->callback;
         } else {
+            throw_unless(Route::has($successName), new RoutesNotDefinedException);
             $successName = route(config('payze.routes.success'));
         }
 
         if ($this->callbackError){
             $failName = $this->callbackError;
         } else {
+            throw_unless(Route::has($failName), new RoutesNotDefinedException);
             $failName = route(config('payze.routes.fail'));
         }
 
-        throw_unless(Route::has($successName) && Route::has($failName), new RoutesNotDefinedException);
+
 
         return [
             'amount' => $this->amount,
