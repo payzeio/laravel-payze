@@ -262,21 +262,21 @@ abstract class PayRequestAttributes extends ApiRequest
      */
     public function toRequest(): array
     {
+        $defaultRoutes = config('payze.routes');
+
         if ($this->callback){
             $successName = $this->callback;
         } else {
-            throw_unless(Route::has($successName), new RoutesNotDefinedException);
-            $successName = route(config('payze.routes.success'));
+            throw_unless(Route::has($defaultRoutes['succes']), new RoutesNotDefinedException);
+            $successName = route($defaultRoutes['succes']);
         }
 
         if ($this->callbackError){
             $failName = $this->callbackError;
         } else {
-            throw_unless(Route::has($failName), new RoutesNotDefinedException);
-            $failName = route(config('payze.routes.fail'));
+            throw_unless(Route::has($defaultRoutes['fail']), new RoutesNotDefinedException);
+            $failName = route($defaultRoutes['fail']);
         }
-
-
 
         return [
             'amount' => $this->amount,
