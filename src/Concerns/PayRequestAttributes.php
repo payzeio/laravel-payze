@@ -267,8 +267,8 @@ abstract class PayRequestAttributes extends ApiRequest
         if ($this->callback){
             $successName = $this->callback;
         } else {
-            throw_unless(Route::has($defaultRoutes['succes']), new RoutesNotDefinedException);
-            $successName = route($defaultRoutes['succes']);
+            throw_unless(Route::has($defaultRoutes['success']), new RoutesNotDefinedException);
+            $successName = route($defaultRoutes['success']);
         }
 
         if ($this->callbackError){
