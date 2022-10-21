@@ -264,17 +264,19 @@ abstract class PayRequestAttributes extends ApiRequest
     {
         $defaultRoutes = config('payze.routes');
 
-        if ($this->callback){
+        if ($this->callback) {
             $successName = $this->callback;
         } else {
-            throw_unless(Route::has($defaultRoutes['succes']), new RoutesNotDefinedException);
-            $successName = route($defaultRoutes['succes']);
+            throw_if(empty($defaultRoutes['success'] ?? false) || !Route::has($defaultRoutes['success']), new RoutesNotDefinedException);
+
+            $successName = route($defaultRoutes['success']);
         }
 
-        if ($this->callbackError){
+        if ($this->callbackError) {
             $failName = $this->callbackError;
         } else {
-            throw_unless(Route::has($defaultRoutes['fail']), new RoutesNotDefinedException);
+            throw_if(empty($defaultRoutes['fail'] ?? false) || !Route::has($defaultRoutes['fail']), new RoutesNotDefinedException);
+
             $failName = route($defaultRoutes['fail']);
         }
 
@@ -301,9 +303,11 @@ abstract class PayRequestAttributes extends ApiRequest
             'currency' => $this->currency,
             'lang' => $this->lang,
         ];
+
         if (!empty($this->split)) {
             $data['split'] = $this->split;
         }
+
         return $data;
     }
 }
