@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
  * PayzeIO\LaravelPayze\Models\PayzeLog
  *
  * @property int $id
+ * @property int|null $transaction_id
  * @property string|null $message
  * @property array|null $payload
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -19,6 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|PayzeLog whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PayzeLog whereMessage($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PayzeLog wherePayload($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PayzeLog whereTransactionId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PayzeLog whereUpdatedAt($value)
  * @mixin \Eloquent
  */
@@ -30,6 +32,7 @@ class PayzeLog extends Model
      * @var array
      */
     protected $fillable = [
+        'transaction_id',
         'message',
         'payload',
     ];
