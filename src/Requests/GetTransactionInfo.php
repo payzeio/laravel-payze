@@ -12,12 +12,12 @@ class GetTransactionInfo extends ApiRequest
     /**
      * @var string
      */
-    protected $method = Method::TRANSACTION_INFO;
+    protected string $method = Method::TRANSACTION_INFO;
 
     /**
      * @var string
      */
-    protected $transactionId;
+    protected string $transactionId;
 
     /**
      * GetTransactionInfo constructor.

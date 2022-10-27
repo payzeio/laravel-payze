@@ -11,12 +11,12 @@ class AddCard extends PayRequest
     /**
      * @var string
      */
-    protected $method = Method::ADD_CARD;
+    protected string $method = Method::ADD_CARD;
 
     /**
      * @var \Illuminate\Database\Eloquent\Model|null
      */
-    protected $assignTo = null;
+    protected ?Model $assignTo = null;
 
     /**
      * AddCard constructor.

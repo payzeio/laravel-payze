@@ -29,7 +29,7 @@ class UpdateIncompleteTransactions extends Command
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         // Abandoned transactions are rejected automatically after 10-15 minutes
         $transactions = PayzeTransaction::incomplete()->where('created_at', '<=', now()->subMinutes(20))->get();

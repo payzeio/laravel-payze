@@ -12,7 +12,7 @@ class PayzeTransactionFailed
     /**
      * @var \PayzeIO\LaravelPayze\Models\PayzeTransaction
      */
-    public $transaction;
+    public PayzeTransaction $transaction;
 
     /**
      * PayzeTransactionPaid constructor.

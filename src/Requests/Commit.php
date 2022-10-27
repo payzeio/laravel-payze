@@ -12,7 +12,7 @@ class Commit extends ApiRequest
     /**
      * @var string
      */
-    protected $method = Method::COMMIT;
+    protected string $method = Method::COMMIT;
 
     /**
      * @var float

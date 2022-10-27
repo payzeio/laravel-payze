@@ -10,5 +10,5 @@ class GetBalance extends ApiRequest
     /**
      * @var string
      */
-    protected $method = Method::BALANCE;
+    protected string $method = Method::BALANCE;
 }

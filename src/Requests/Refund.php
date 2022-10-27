@@ -12,17 +12,17 @@ class Refund extends ApiRequest
     /**
      * @var string
      */
-    protected $method = Method::REFUND;
+    protected string $method = Method::REFUND;
 
     /**
      * @var string
      */
-    protected $transactionId;
+    protected string $transactionId;
 
     /**
      * @var float
      */
-    protected $amount = 0;
+    protected float $amount = 0;
 
     /**
      * Refund constructor.

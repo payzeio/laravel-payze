@@ -9,21 +9,21 @@ class Split
      *
      * @var float
      */
-    protected $amount;
+    protected float $amount;
 
     /**
      * IBAN of receiver
      *
      * @var string
      */
-    protected $iban;
+    protected string $iban;
 
     /**
      * Delay (days) before receiving
      *
      * @var int
      */
-    protected $payIn = 0;
+    protected int $payIn = 0;
 
     /**
      * Split constructor.

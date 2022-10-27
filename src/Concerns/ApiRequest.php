@@ -9,7 +9,7 @@ abstract class ApiRequest
     /**
      * @var string
      */
-    protected $method;
+    protected string $method;
 
     /**
      * @return string

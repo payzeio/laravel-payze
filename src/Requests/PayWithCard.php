@@ -14,12 +14,12 @@ class PayWithCard extends PayRequestAttributes
     /**
      * @var string
      */
-    protected $method = Method::PAY_WITH_CARD;
+    protected string $method = Method::PAY_WITH_CARD;
 
     /**
      * @var \PayzeIO\LaravelPayze\Models\PayzeCardToken
      */
-    protected $cardToken;
+    protected PayzeCardToken $cardToken;
 
     /**
      * PayWithCard constructor.

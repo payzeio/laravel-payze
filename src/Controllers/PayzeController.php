@@ -14,14 +14,14 @@ class PayzeController extends Controller
      *
      * @var string
      */
-    protected $key = 'payment_transaction_id';
+    protected string $key = 'payment_transaction_id';
 
     /**
      * Successful payment's view
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
+     * @return mixed
      */
     public function success(Request $request)
     {
@@ -33,7 +33,7 @@ class PayzeController extends Controller
 
         $response = $this->successResponse($transaction, $request);
 
-        return isset($response) ? $response : $this->response('success');
+        return $response ?? $this->response('success');
     }
 
     /**
@@ -41,7 +41,7 @@ class PayzeController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
+     * @return mixed
      */
     public function fail(Request $request)
     {
@@ -53,7 +53,7 @@ class PayzeController extends Controller
 
         $response = $this->failResponse($transaction, $request);
 
-        return isset($response) ? $response : $this->response('fail');
+        return $response ?? $this->response('fail');
     }
 
     /**

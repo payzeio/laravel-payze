@@ -11,7 +11,7 @@ class PayzeTransactionObserver
     /**
      * @param \PayzeIO\LaravelPayze\Models\PayzeTransaction $transaction
      */
-    public function saved(PayzeTransaction $transaction)
+    public function saved(PayzeTransaction $transaction): void
     {
         $completed = $transaction->is_completed && !$transaction->getOriginal('is_completed');
 

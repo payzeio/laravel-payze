@@ -17,47 +17,47 @@ abstract class PayRequestAttributes extends ApiRequest
     /**
      * @var float
      */
-    protected $amount = 0;
+    protected float $amount = 0;
 
     /**
      * @var array
      */
-    protected $split = [];
+    protected array $split = [];
 
     /**
      * @var string
      */
-    protected $currency = Currency::DEFAULT;
+    protected string $currency = Currency::DEFAULT;
 
     /**
      * @var string
      */
-    protected $lang = Language::DEFAULT;
+    protected string $lang = Language::DEFAULT;
 
     /**
      * @var bool
      */
-    protected $preauthorize = false;
+    protected bool $preauthorize = false;
 
     /**
      * @var bool
      */
-    protected $raw = false;
+    protected bool $raw = false;
 
     /**
      * @var \Illuminate\Database\Eloquent\Model
      */
-    protected $model;
+    protected Model $model;
 
     /**
      * @var string
      */
-    protected $callback = '';
+    protected string $callback = '';
 
     /**
      * @var string
      */
-    protected $callbackError = '';
+    protected string $callbackError = '';
 
     /**
      * @param float $amount

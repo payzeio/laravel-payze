@@ -10,7 +10,7 @@ class JustPay extends PayRequest
     /**
      * @var string
      */
-    protected $method = Method::JUST_PAY;
+    protected string $method = Method::JUST_PAY;
 
     /**
      * JustPay constructor.
