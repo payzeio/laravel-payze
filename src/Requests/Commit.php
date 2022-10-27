@@ -17,12 +17,12 @@ class Commit extends ApiRequest
     /**
      * @var float
      */
-    protected $amount = 0;
+    protected float $amount = 0;
 
     /**
      * @var string
      */
-    protected $transactionId;
+    protected string $transactionId;
 
     /**
      * Commit constructor.
