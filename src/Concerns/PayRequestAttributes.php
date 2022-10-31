@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Route;
 use PayzeIO\LaravelPayze\Enums\Currency;
 use PayzeIO\LaravelPayze\Enums\Language;
+use PayzeIO\LaravelPayze\Facades\Payze;
 use PayzeIO\LaravelPayze\Exceptions\PaymentRequestException;
 use PayzeIO\LaravelPayze\Exceptions\RoutesNotDefinedException;
 use PayzeIO\LaravelPayze\Exceptions\UnsupportedCurrencyException;
@@ -297,7 +298,7 @@ abstract class PayRequestAttributes extends ApiRequest
     {
         $data = [
             'model_id' => optional($this->model)->id,
-            'model_type' => $this->model ? get_class($this->model) : null,
+            'model_type' => $this->model ? Payze::modelType($this->model) : null,
             'method' => $this->method,
             'amount' => $this->amount,
             'currency' => $this->currency,

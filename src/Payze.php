@@ -5,6 +5,8 @@ namespace PayzeIO\LaravelPayze;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Route;
 use PayzeIO\LaravelPayze\Concerns\ApiRequest;
 use PayzeIO\LaravelPayze\Concerns\PayRequest;
@@ -116,7 +118,7 @@ class Payze
             'token' => $token,
             'transaction_id' => $transaction->id,
             'model_id' => optional($model)->id ?? $transaction->model_id,
-            'model_type' => filled($model) ? get_class($model) : $transaction->model_type,
+            'model_type' => filled($model) ? Payze::modelType($model) : $transaction->model_type,
         ]);
     }
 
@@ -229,6 +231,21 @@ class Payze
         throw_unless(empty($response['response']['error']), new PaymentRequestException($response['response']['error'] ?? 'Error'));
 
         return $response;
+    }
+
+    /**
+     * Get a model type regarding relation morph map
+     *
+     * @param \Illuminate\Database\Eloquent\Model $model
+     *
+     * @return string
+     */
+    public static function modelType(Model $model): string
+    {
+        $morphMap = array_flip(Relation::morphMap());
+        $class = get_class($model);
+
+        return Arr::get($morphMap, $class, $class);
     }
 
     /**
