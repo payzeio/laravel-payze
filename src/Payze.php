@@ -135,7 +135,7 @@ class Payze
         return tap(PayzeTransaction::firstOrNew([
             'transaction_id' => $data['transactionId'],
         ]), function (PayzeTransaction $transaction) use ($data, $request) {
-            $transaction->fill(array_merge($request ? $request->toModel() : [], [
+            $transaction->fill(array_merge($request ? $request->toModel() : [], array_filter([
                 'split' => $data['split'] ?? null,
                 'status' => $status = $data['status'] ?? Status::CREATED,
                 'is_paid' => Status::isPaid($status),
@@ -148,7 +148,7 @@ class Payze
                 'card_mask' => $data['cardMask'] ?? null,
                 'result_code' => $data['resultCode'] ?? null,
                 'log' => $data['log'] ?? null,
-            ]));
+            ])));
 
             foreach (['amount', 'currency'] as $field) {
                 if (empty($transaction->$field) && !empty($data[$field])) {

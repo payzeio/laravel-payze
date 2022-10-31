@@ -288,6 +288,7 @@ abstract class PayRequestAttributes extends ApiRequest
             'preauthorize' => $this->preauthorize,
             'callback' => $successName,
             'callbackError' => $failName,
+            'split' => filled($this->split) ? array_map(fn(Split $split) => $split->toRequest(), $this->split) : [],
         ];
     }
 
@@ -296,19 +297,14 @@ abstract class PayRequestAttributes extends ApiRequest
      */
     public function toModel(): array
     {
-        $data = [
+        return [
             'model_id' => optional($this->model)->id,
             'model_type' => $this->model ? Payze::modelType($this->model) : null,
             'method' => $this->method,
             'amount' => $this->amount,
             'currency' => $this->currency,
             'lang' => $this->lang,
+            'split' => filled($this->split) ? array_map(fn(Split $split) => $split->toRequest(), $this->split) : [],
         ];
-
-        if (!empty($this->split)) {
-            $data['split'] = $this->split;
-        }
-
-        return $data;
     }
 }
