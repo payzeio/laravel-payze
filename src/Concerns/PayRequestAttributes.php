@@ -112,7 +112,7 @@ abstract class PayRequestAttributes extends ApiRequest
     }
 
     /**
-     * Switch payment page language
+     * Switch payment currency
      *
      * @param string $currency
      *
