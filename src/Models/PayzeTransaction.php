@@ -5,6 +5,7 @@ namespace PayzeIO\LaravelPayze\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
@@ -32,8 +33,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * @property array|null $log
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\PayzeIO\LaravelPayze\Models\PayzeCardToken[] $cards
- * @property-read int|null $cards_count
+ * @property-read \PayzeIO\LaravelPayze\Models\PayzeCardToken|null $card
  * @property-read Model|\Eloquent $model
  * @method static Builder|PayzeTransaction completed()
  * @method static Builder|PayzeTransaction incomplete()
@@ -134,11 +134,11 @@ class PayzeTransaction extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function cards(): HasMany
+    public function card(): HasOne
     {
-        return $this->hasMany(PayzeCardToken::class, 'transaction_id');
+        return $this->hasOne(PayzeCardToken::class, 'transaction_id')->withInactive();
     }
 
     /**

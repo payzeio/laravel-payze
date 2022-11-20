@@ -12,6 +12,10 @@ This package allows you to process payments with Payze.io from your Laravel appl
 
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
 
+### Upgrading
+
+After upgrading to a newer version, make sure to run [publish command](#publish-migrations-and-config-by-running) to publish the latest migrations. Also, please copy new [config file](config/payze.php) contents to your existing one.
+
 ## Table of Contents
 
 - [Installation](#installation)
@@ -73,7 +77,7 @@ Open `config/app.php` and add `PayzeServiceProvider` to the `providers` array.
 ],
 ```
 
-Publish migrations and config by running:
+#### Publish migrations and config by running:
 
 ```
 php artisan vendor:publish --provider="PayzeIO\LaravelPayze\PayzeServiceProvider"
@@ -132,7 +136,7 @@ Enable/Disable SSL verification in Guzzle client to avoid SSL problems on some s
 
 Success and fail routes names, which are used to identify the finished transactions and update transaction status in the database.
 
-Update route names only if you have defined routes in a different namespace (like `api`). For example you will have `api.payze.success` and `api.payze.fail` URLs.
+Update route names only if you have defined routes in a different namespace (like `api`). For example, you will have `api.payze.success` and `api.payze.fail` URLs.
 
 ### Views
 
@@ -142,7 +146,7 @@ By default, it uses an empty page with just status text (green/red colors) and a
 
 ### Transactions Table
 
-The name of the table in the database, which is used to store all of the transactions.
+The name of the table in the database, which is used to store all the transactions.
 
 ### Logs Table
 
@@ -150,7 +154,7 @@ The name of the table in the database, which is used to store detailed logs abou
 
 ### Card Tokens Table
 
-The name of the table in the database, which is used to store all of the saved card tokens.
+The name of the table in the database, which is used to store all the saved card tokens.
 
 ### API Key
 
@@ -162,9 +166,9 @@ API secret of your [Payze.io](https://payze.io) account.
 
 ## Payments & Requests
 
-All of the requests are sent by corresponding classes, which extends the same class (PayzeIO\LaravelPayze\Concerns\ApiRequest).
+All the requests are sent by corresponding classes, which extends the same class (PayzeIO\LaravelPayze\Concerns\ApiRequest).
 
-All requests are called statically by `request()` function (passing constructor data), then chain all of the needed data and then `process()`.
+All requests are called statically by `request()` function (passing constructor data), then chain all the needed data and then `process()`.
 
 Detailed instructions about needed data and options are in the [next section](#payment-request-options).
 
@@ -220,7 +224,7 @@ return AddCard::request(1)
 
 You can pay with a saved card token anytime without customer interaction.
 
-Card tokens can be accessed by [PayzeCardToken](src/Models/PayzeCardToken.php) model or [cards relationship](#cards-relationship). Filter tokens by active status (with [`active()` scope](#active-scope))
+Card tokens can be accessed by [PayzeCardToken](src/Models/PayzeCardToken.php) model or [cards relationship](#cards-relationship). Read more about [card tokens model here.](#card-token-model)
 
 **Parameters:**
 
@@ -232,8 +236,8 @@ Card tokens can be accessed by [PayzeCardToken](src/Models/PayzeCardToken.php) m
 ```php
 use PayzeIO\LaravelPayze\Requests\PayWithCard;
 
-// Get user's latest saved card
-$card = $user->cards()->active()->latest()->firstOrFail();
+// Get user's non-expired, default card
+$card = $user->cards()->active()->default()->firstOrFail();
 
 return PayWithCard::request($card, 15)
     ->for($order) // optional
@@ -310,7 +314,7 @@ return GetBalance::request()->process();
 
 ## Payment Request Options
 
-You can pass these parameters to all of the payment requests in Payze package.
+You can pass these parameters to all the payment requests in Payze package.
 
 ### Amount
 
@@ -375,7 +379,7 @@ return JustPay::request(1)->for($order)->process();
 
 ### Split Money
 
-You can split the money into different bank accounts. For example, you have a marketplace where users sell their products and you get a commission for that. You can simply split transferred money easily instead of manually transferring from a bank account to a seller on every order.
+You can split the money into different bank accounts. For example, you have a marketplace where users sell their products, and you get a commission for that. You can simply split transferred money easily instead of manually transferring from a bank account to a seller on every order.
 
 You have to call `split()` function on the request, which accepts list/array of `PayzeIO\LaravelPayze\Objects\Split` object(s).
 
@@ -536,7 +540,11 @@ PayzeTransaction::nonrefundable()->get();
 
 You can access all saved card tokens logged in the database by `PayzeIO\LaravelPayze\Models\PayzeCardToken` model.
 
-Get all tokens:
+**NOTICE:** After starting AddCard payment, new database entry is created with non-active token which gets activated after successful payment. So `Active` card refers to a valid token, which can be used in future payments.
+
+Get all active tokens:
+
+Tokens are automatically filtered by a global scope and only returns active tokens.
 
 ```php
 use PayzeIO\LaravelPayze\Models\PayzeCardToken;
@@ -544,11 +552,13 @@ use PayzeIO\LaravelPayze\Models\PayzeCardToken;
 PayzeCardToken::all();
 ```
 
-Active card tokens have `card_mask` attribute, which can be helpful for a user to choose correct card.
+Active card tokens have `card_mask`, `cardholder`, `brand`, `expiration_date` attributes, which can be helpful for a user to choose correct card.
 
-#### Active Scope
+#### Active (Non-Expired) Scope
 
-Filter active card tokens with `active()` scope.
+Since tokens are automatically filtered by a global scope, `active()` scope now returns non-expired card tokens based on expiration date.
+
+Filter active (non-expired) card tokens with `active()` scope.
 
 ```php
 use PayzeIO\LaravelPayze\Models\PayzeCardToken;
@@ -556,14 +566,64 @@ use PayzeIO\LaravelPayze\Models\PayzeCardToken;
 PayzeCardToken::active()->get();
 ```
 
+#### WithInactive Scope
+
+Tokens are automatically filtered by a global scope and only returns active tokens. If you want to include inactive card tokens in the list, you should add `withInactive()` scope to a query:
+
+```php
+use PayzeIO\LaravelPayze\Models\PayzeCardToken;
+
+PayzeCardToken::withInactive()->get();
+```
+
 #### Inactive Scope
 
-Filter inactive card tokens with `inactive()` scope.
+Filter inactive card tokens with `inactive()` scope. This method already includes `withInactive()` scope, so you don't have to specify it manually.
 
 ```php
 use PayzeIO\LaravelPayze\Models\PayzeCardToken;
 
 PayzeCardToken::inactive()->get();
+```
+
+#### Is Expired
+
+You can check if already fetched PayzeCardToken model instance is expired or not.
+
+Method will return false if expiration date is not filled in database.
+
+```php
+use PayzeIO\LaravelPayze\Models\PayzeCardToken;
+
+$token = PayzeCardToken::latest()->get();
+
+$token->isExpired();
+```
+
+#### Is Active (Non-expired)
+
+You can check if already fetched PayzeCardToken model instance is expired or not.
+
+Method will return true if expiration date is not filled in database.
+
+```php
+use PayzeIO\LaravelPayze\Models\PayzeCardToken;
+
+$card = PayzeCardToken::latest()->get();
+
+$card->isActive();
+```
+
+#### Mark as Default
+
+You can set current card as a default. All other cards will be unmarked automatically.
+
+```php
+use PayzeIO\LaravelPayze\Models\PayzeCardToken;
+
+$card = PayzeCardToken::latest()->get();
+
+$card->markAsDefault();
 ```
 
 ### Log Model
@@ -595,7 +655,7 @@ protected $commands = [
 ];
 ```
 
-Then add a command in a schedule in `app/Console/Kernel.php`'s `schedule` function. We recommend to run a job every 30 minutes, but it's totally up to you and your application needs.
+Then add a command in a schedule in `app/Console/Kernel.php`'s `schedule` function. We recommend running a job every 30 minutes, but it's totally up to you and your application needs.
 
 ```php
 use PayzeIO\LaravelPayze\Console\Commands\UpdateIncompleteTransactions;

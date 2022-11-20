@@ -2,6 +2,7 @@
 
 namespace PayzeIO\LaravelPayze;
 
+use Carbon\Carbon;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Database\Eloquent\Model;
@@ -163,12 +164,38 @@ class Payze
             $transaction->save();
 
             if ($transaction->is_paid) {
-                $transaction->cards()->where('active', false)->update([
-                    'active' => true,
-                    'card_mask' => $transaction->card_mask,
-                ]);
+                $card = $transaction->card;
+
+                if ($card && !$card->active) {
+                    $card->update([
+                        'active' => true,
+                        'default' => PayzeCardToken::where('model_type', $card->model_type)->where('model_id', $card->model_id)->where('default', true)->doesntExist(),
+                        'card_mask' => $transaction->card_mask,
+                        'cardholder' => $data['cardholder'] ?? null,
+                        'brand' => $data['cardBrand'] ?? null,
+                        'expiration_date' => $this->parseExpirationDate($data['expirationDate'] ?? null),
+                    ]);
+                }
             }
         });
+    }
+
+    protected function parseExpirationDate(?string $date): ?Carbon
+    {
+        if (empty($date)) {
+            return null;
+        }
+
+        $month = substr($date, 0, 2);
+        $year = substr($date, -2);
+
+        // Some merchants may receive an expiration date in reversed order
+        // Month is always less than a year, so we can easily detect it and reverse
+        if (intval($month) > intval($year)) {
+            [$year, $month] = [$month, $year];
+        }
+
+        return Carbon::createFromFormat('dmy', '01' . $month . $year)->endOfMonth();
     }
 
     /**

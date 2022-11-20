@@ -1,5 +1,17 @@
 # Changelog
 
+## 3.0.0
+
+- Added `default` option to saved card tokens.
+- Added cardholder name, expiration date, and brand to saved card tokens.
+- **BREAKING!** Active cards are automatically filtered in PayzeCardToken model via global scope. Scope `active` model will now filter **non-expired** cards, instead of activated ones.
+  
+    Before: `$query->where('active', true)`
+  
+    After: `$query->where('expiration_date', '>=', Carbon::now())`
+
+    Please refer to [this section](README.md#card-token-model) to read more details.
+
 ## v2.0.0
 
 - Bumped PHP to version 7.4, Added property types ([7ec95e2](https://github.com/payzeio/laravel-payze/commit/7ec95e29b5a7e220cdde68384dfaabf955f9c134))

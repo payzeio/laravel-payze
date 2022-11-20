@@ -18,6 +18,7 @@ class PayzeServiceProvider extends ServiceProvider
                 __DIR__ . '/../database/migrations/create_payze_logs_table.php.stub' => $this->getMigrationFileName('create_payze_logs_table.php', '_02'),
                 __DIR__ . '/../database/migrations/create_payze_card_tokens_table.php.stub' => $this->getMigrationFileName('create_payze_card_tokens_table.php', '_03'),
                 __DIR__ . '/../database/migrations/add_transaction_id_to_payze_logs_table.php.stub' => $this->getMigrationFileName('add_transaction_id_to_payze_logs_table.php', '_04'),
+                __DIR__ . '/../database/migrations/add_default_and_details_columns_to_payze_card_tokens_table.php.stub' => $this->getMigrationFileName('add_default_and_details_columns_to_payze_card_tokens_table.php', '_05'),
             ], 'migrations');
 
             $this->publishes([
@@ -49,9 +50,7 @@ class PayzeServiceProvider extends ServiceProvider
         $timestamp = date('Y_m_d_His') . $prefix;
 
         return Collection::make($this->app->databasePath() . DIRECTORY_SEPARATOR . 'migrations' . DIRECTORY_SEPARATOR)
-            ->flatMap(function ($path) use ($migrationFileName) {
-                return File::glob($path . '*_' . $migrationFileName);
-            })
+            ->flatMap(fn($path) => File::glob($path . '*_' . $migrationFileName))
             ->push($this->app->databasePath() . "/migrations/{$timestamp}_$migrationFileName")
             ->first();
     }
