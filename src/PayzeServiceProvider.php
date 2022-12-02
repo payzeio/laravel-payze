@@ -19,15 +19,15 @@ class PayzeServiceProvider extends ServiceProvider
                 __DIR__ . '/../database/migrations/create_payze_card_tokens_table.php.stub' => $this->getMigrationFileName('create_payze_card_tokens_table.php', '_03'),
                 __DIR__ . '/../database/migrations/add_transaction_id_to_payze_logs_table.php.stub' => $this->getMigrationFileName('add_transaction_id_to_payze_logs_table.php', '_04'),
                 __DIR__ . '/../database/migrations/add_default_and_details_columns_to_payze_card_tokens_table.php.stub' => $this->getMigrationFileName('add_default_and_details_columns_to_payze_card_tokens_table.php', '_05'),
-            ], 'migrations');
+            ], 'payze-migrations');
 
             $this->publishes([
                 __DIR__ . '/../config/payze.php' => config_path('payze.php'),
-            ], 'config');
+            ], 'payze-config');
 
             $this->publishes([
                 __DIR__ . '/controllers/PayzeController.php.stub' => app_path('Http/Controllers/PayzeController.php'),
-            ], 'controllers');
+            ], 'payze-controllers');
         }
 
         $this->mergeConfigFrom(__DIR__ . '/../config/payze.php', 'payze');
