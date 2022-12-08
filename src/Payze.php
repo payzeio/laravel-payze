@@ -143,7 +143,7 @@ class Payze
                 'is_completed' => Status::isCompleted($status),
                 'commission' => $data['commission'] ?? null,
                 'final_amount' => $data['finalAmount'] ?? null,
-                'can_be_committed' => $data['getCanBeCommitted'] ?? false,
+                'can_be_committed' => $data['canBeCommitted'] ?? $data['getCanBeCommitted'] ?? false,
                 'refunded' => $data['refunded'] ?? null,
                 'refundable' => $data['refundable'] ?? false,
                 'card_mask' => $data['cardMask'] ?? null,
