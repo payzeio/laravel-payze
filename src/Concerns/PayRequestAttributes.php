@@ -61,6 +61,11 @@ abstract class PayRequestAttributes extends ApiRequest
     protected string $callbackError = '';
 
     /**
+     * @var string
+     */
+    protected string $hookUrl = '';
+
+    /**
      * @param float $amount
      *
      * @return $this
@@ -201,6 +206,20 @@ abstract class PayRequestAttributes extends ApiRequest
     }
 
     /**
+     * Set hookUrl option transaction
+     *
+     * @param string $url
+     *
+     * @return $this
+     */
+    public function hookUrl(string $url): self
+    {
+        $this->hookUrl = $url;
+
+        return $this;
+    }
+
+    /**
      * @return float
      */
     public function getAmount(): float
@@ -288,6 +307,7 @@ abstract class PayRequestAttributes extends ApiRequest
             'preauthorize' => $this->preauthorize,
             'callback' => $successName,
             'callbackError' => $failName,
+            'hookUrl' => $this->hookUrl,
             'split' => filled($this->split) ? array_map(fn(Split $split) => $split->toRequest(), $this->split) : [],
         ];
     }
