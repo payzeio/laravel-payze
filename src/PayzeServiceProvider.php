@@ -26,7 +26,7 @@ class PayzeServiceProvider extends ServiceProvider
             ], 'payze-config');
 
             $this->publishes([
-                __DIR__ . '/controllers/PayzeController.php.stub' => app_path('Http/Controllers/PayzeController.php'),
+                __DIR__ . '/Controllers/PayzeController.php.stub' => app_path('Http/Controllers/PayzeController.php'),
             ], 'payze-controllers');
         }
 
