@@ -46,9 +46,9 @@ abstract class PayRequestAttributes extends ApiRequest
     protected bool $raw = false;
 
     /**
-     * @var \Illuminate\Database\Eloquent\Model
+     * @var \Illuminate\Database\Eloquent\Model|null
      */
-    protected Model $model;
+    protected ?Model $model = null;
 
     /**
      * @var string
@@ -298,8 +298,8 @@ abstract class PayRequestAttributes extends ApiRequest
     public function toModel(): array
     {
         return [
-            'model_id' => optional($this->model)->id,
-            'model_type' => $this->model ? Payze::modelType($this->model) : null,
+            'model_id' => !empty($this->model) ? $this->model->id : null,
+            'model_type' => !empty($this->model) ? Payze::modelType($this->model) : null,
             'method' => $this->method,
             'amount' => $this->amount,
             'currency' => $this->currency,
